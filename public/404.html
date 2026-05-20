@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sai Nandu Vajhala | AI/ML Engineer Portfolio</title>
+    <script>
+      // GitHub Pages SPA redirect trick.
+      // Stores the full path in sessionStorage, then redirects to index.html.
+      // The main app reads and replaces the URL on load.
+      var l = window.location;
+      sessionStorage.redirect = l.pathname + l.search + l.hash;
+      l.replace(l.protocol + '//' + l.host + l.pathname.split('/').slice(0, 2).join('/') + '/?p=1');
+    </script>
+  </head>
+  <body></body>
+</html>
