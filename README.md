@@ -3,7 +3,7 @@
 Welcome to my professional developer portfolio. I am a BTech Artificial Intelligence and Machine Learning student at **Sreyas Institute of Engineering and Technology**, passionate about building intelligent agent networks, full-duplex conversational systems, and data-driven automation.
 
 ## 🚀 Live Site
-🌐 **Check it out live:** [https://sainanduvajhala.github.io/portfolio/](https://sainanduvajhala.github.io/portfolio/)
+🌐 **Check it out live:** [https://sainanduvajhala.github.io/sai-nandu/](https://sainanduvajhala.github.io/sai-nandu/)
 
 ---
 
@@ -47,7 +47,7 @@ Welcome to my professional developer portfolio. I am a BTech Artificial Intellig
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/SaiNanduVajhala/portfolio.git
+git clone https://github.com/SaiNanduVajhala/sai-nandu.git
 cd portfolio
 ```
 
@@ -74,4 +74,4 @@ This repository is set up with an automated **GitHub Actions CI/CD pipeline** lo
 To deploy:
 1. Push your changes to the `main` branch.
 2. In your GitHub Repository, go to **Settings** -> **Pages** -> change **Source** to **GitHub Actions**.
-3. The site will compile and deploy automatically under `https://SaiNanduVajhala.github.io/portfolio/`.
+3. The site will compile and deploy automatically under `https://SaiNanduVajhala.github.io/sai-nandu/`.

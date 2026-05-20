@@ -7,7 +7,7 @@ export default defineConfig({
   // Set base to your GitHub repo name.
   // If deploying to https://SaiNanduVajhala.github.io/portfolio/ → use '/portfolio/'
   // If deploying to https://SaiNanduVajhala.github.io/ (user/org site) → use '/'
-  base: '/portfolio/',
+  base: '/sai-nandu/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
