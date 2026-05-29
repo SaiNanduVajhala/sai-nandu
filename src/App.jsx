@@ -294,7 +294,7 @@ function App() {
       <nav className="hud-nav-bar">
         <div className="container hud-nav-content">
           <button onClick={() => setActiveSector("hero")} className="text-accent" style={{ background: 'none', border: 'none', fontWeight: 700, fontSize: '1.25rem', fontFamily: 'Space Grotesk', cursor: 'pointer' }}>SV.</button>
-          
+
           {isMobile ? (
             <button className="mobile-menu-toggle" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -340,7 +340,7 @@ function App() {
       {/* 2. Full-Screen WebGL Canvas Universe */}
       <div className="canvas-container-3d">
         <Canvas
-          camera={{ position: [0, 0, 6], fov: isMobile ? 65 : 45 }}
+          camera={{ position: [0, 0, 6], fov: isMobile ? 68 : 55 }}
           gl={{ antialias: true, alpha: true }}
         >
           <ambientLight intensity={0.6} />
@@ -361,6 +361,8 @@ function App() {
             <Html
               position={[0, -0.5, 0]}
               transform
+              pixelPerfect
+              scale={0.66}
               distanceFactor={4.5}
               className="r3f-html-wrapper"
               style={{
@@ -370,7 +372,7 @@ function App() {
                 pointerEvents: activeSector === 'hero' ? 'auto' : 'none'
               }}
             >
-              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: isMobile ? '2rem' : '3rem', width: isMobile ? '340px' : '960px', alignItems: 'center', textAlign: isMobile ? 'center' : 'left' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: isMobile ? '2rem' : '3rem', width: isMobile ? '340px' : '960px', alignItems: 'center', textAlign: isMobile ? 'center' : 'left', transform: 'scale(1.5)', transformOrigin: 'center' }}>
                 <div style={{ position: 'relative', minHeight: '380px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
                   <div style={{ position: 'relative', zIndex: 2 }}>
