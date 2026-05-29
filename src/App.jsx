@@ -98,6 +98,14 @@ function App() {
   const [cardFlipped, setCardFlipped] = useState(false);
   const [currentProjectIndex, setCurrentProjectIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(0); // -1 for left, 1 for right
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Apply theme to document root
   useEffect(() => {
@@ -286,14 +294,34 @@ function App() {
       <nav className="hud-nav-bar">
         <div className="container hud-nav-content">
           <button onClick={() => setActiveSector("hero")} className="text-accent" style={{ background: 'none', border: 'none', fontWeight: 700, fontSize: '1.25rem', fontFamily: 'Space Grotesk', cursor: 'pointer' }}>SV.</button>
-          <div className="hud-nav-links">
-            <button onClick={() => setActiveSector("hero")} className={`hud-nav-btn ${activeSector === "hero" ? "hud-nav-btn-active" : ""}`}>Home</button>
-            <button onClick={() => setActiveSector("about")} className={`hud-nav-btn ${activeSector === "about" ? "hud-nav-btn-active" : ""}`}>About</button>
-            <button onClick={() => setActiveSector("projects")} className={`hud-nav-btn ${activeSector === "projects" ? "hud-nav-btn-active" : ""}`}>Projects</button>
-            <button onClick={() => setActiveSector("terminal")} className={`hud-nav-btn ${activeSector === "terminal" ? "hud-nav-btn-active" : ""}`}>Sandbox</button>
-            <button onClick={() => setActiveSector("skills")} className={`hud-nav-btn ${activeSector === "skills" ? "hud-nav-btn-active" : ""}`}>Skills</button>
-            <button onClick={() => setActiveSector("credentials")} className={`hud-nav-btn ${activeSector === "credentials" ? "hud-nav-btn-active" : ""}`}>Credentials</button>
-            <button onClick={() => setActiveSector("contact")} className={`hud-nav-btn ${activeSector === "contact" ? "hud-nav-btn-active" : ""}`}>Contact</button>
+          
+          {isMobile ? (
+            <button className="mobile-menu-toggle" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                {isMobileMenuOpen ? (
+                  <>
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </>
+                ) : (
+                  <>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                  </>
+                )}
+              </svg>
+            </button>
+          ) : null}
+
+          <div className={`hud-nav-links ${isMobile ? 'mobile-hidden' : ''} ${isMobileMenuOpen ? 'mobile-menu-open' : ''}`}>
+            <button onClick={() => { setActiveSector("hero"); setIsMobileMenuOpen(false); }} className={`hud-nav-btn ${activeSector === "hero" ? "hud-nav-btn-active" : ""}`}>Home</button>
+            <button onClick={() => { setActiveSector("about"); setIsMobileMenuOpen(false); }} className={`hud-nav-btn ${activeSector === "about" ? "hud-nav-btn-active" : ""}`}>About</button>
+            <button onClick={() => { setActiveSector("projects"); setIsMobileMenuOpen(false); }} className={`hud-nav-btn ${activeSector === "projects" ? "hud-nav-btn-active" : ""}`}>Projects</button>
+            <button onClick={() => { setActiveSector("terminal"); setIsMobileMenuOpen(false); }} className={`hud-nav-btn ${activeSector === "terminal" ? "hud-nav-btn-active" : ""}`}>Sandbox</button>
+            <button onClick={() => { setActiveSector("skills"); setIsMobileMenuOpen(false); }} className={`hud-nav-btn ${activeSector === "skills" ? "hud-nav-btn-active" : ""}`}>Skills</button>
+            <button onClick={() => { setActiveSector("credentials"); setIsMobileMenuOpen(false); }} className={`hud-nav-btn ${activeSector === "credentials" ? "hud-nav-btn-active" : ""}`}>Credentials</button>
+            <button onClick={() => { setActiveSector("contact"); setIsMobileMenuOpen(false); }} className={`hud-nav-btn ${activeSector === "contact" ? "hud-nav-btn-active" : ""}`}>Contact</button>
             <div className="theme-toggle-wrapper">
               <div className="theme-switch" onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')} title="Toggle Theme">
                 <div className="theme-switch-knob">
@@ -312,7 +340,7 @@ function App() {
       {/* 2. Full-Screen WebGL Canvas Universe */}
       <div className="canvas-container-3d">
         <Canvas
-          camera={{ position: [0, 0, 6], fof: 45 }}
+          camera={{ position: [0, 0, 6], fov: isMobile ? 65 : 45 }}
           gl={{ antialias: true, alpha: true }}
         >
           <ambientLight intensity={0.6} />
@@ -342,7 +370,7 @@ function App() {
                 pointerEvents: activeSector === 'hero' ? 'auto' : 'none'
               }}
             >
-              <div style={{ display: 'grid', gridTemplateColumns: '1.2fr 1fr', gap: '3rem', width: '960px', alignItems: 'center' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1.2fr 1fr', gap: isMobile ? '2rem' : '3rem', width: isMobile ? '340px' : '960px', alignItems: 'center', textAlign: isMobile ? 'center' : 'left' }}>
                 <div style={{ position: 'relative', minHeight: '380px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
 
                   <div style={{ position: 'relative', zIndex: 2 }}>
@@ -354,7 +382,7 @@ function App() {
                       BTech student in Artificial Intelligence &amp; Machine Learning.<br />
                       Building intelligent agents, real-time systems, and data-driven automation.
                     </p>
-                    <div style={{ display: 'flex', gap: '1.25rem' }}>
+                    <div style={{ display: 'flex', gap: '1.25rem', justifyContent: isMobile ? 'center' : 'flex-start', flexWrap: isMobile ? 'wrap' : 'nowrap' }}>
                       <button onClick={() => setActiveSector("projects")} className="btn btn-premium-glow">View Projects</button>
                       <a href="./Sai_Nandu_Resume.pdf" download="Sai_Nandu_Resume.pdf" className="btn-neon-border">
                         <span style={{ marginRight: '8px' }}>📥</span> Download Resume
@@ -363,7 +391,7 @@ function App() {
                   </div>
                 </div>
 
-                <div className="id-card-3d-container" style={{ transform: 'translateX(50px)' }}>
+                <div className="id-card-3d-container" style={{ transform: isMobile ? 'none' : 'translateX(50px)', margin: isMobile ? '0 auto' : '0' }}>
 
                   {/* Premium flip card — uses scaleX squeeze animation (CSS 3D backface-visibility broken in R3F Html) */}
                   <div className="id-card-wrapper" style={{ zIndex: 2 }} onMouseEnter={() => setCardFlipped(true)} onMouseLeave={() => setCardFlipped(false)}>
@@ -522,8 +550,8 @@ function App() {
                 pointerEvents: activeSector === 'projects' ? 'auto' : 'none'
               }}
             >
-              <div style={{ width: '920px' }} onWheel={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+              <div style={{ width: isMobile ? '340px' : '920px' }} onWheel={(e) => e.stopPropagation()} onPointerDown={(e) => e.stopPropagation()}>
+                <div style={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row', justifyContent: 'space-between', alignItems: isMobile ? 'flex-start' : 'center', gap: isMobile ? '1rem' : '0', marginBottom: '2rem' }}>
                   <h2 className="heading-md" style={{ margin: 0, fontSize: '2rem' }}>Featured Projects</h2>
                   <div className="filter-container" style={{ margin: 0 }}>
                     {["all", "ai-agents", "data-science", "accessibility"].map((cat) => {
@@ -540,7 +568,7 @@ function App() {
                 </div>
 
                 {/* Relative Wrapper to mathematically lock arrow buttons to absolute 50% height of the card */}
-                <div style={{ position: 'relative', width: '600px', height: '390px', margin: '2.5rem auto 1rem auto' }}>
+                <div style={{ position: 'relative', width: isMobile ? '100%' : '600px', height: '390px', margin: '2.5rem auto 1rem auto' }}>
 
                   {/* Left Arrow Button (Absolute Centered Outside Card) */}
                   <button
@@ -551,7 +579,7 @@ function App() {
                     className="btn btn-premium-glow"
                     style={{
                       position: 'absolute',
-                      left: '-70px',
+                      left: isMobile ? '-10px' : '-70px',
                       top: '50%',
                       transform: 'translateY(-50%)',
                       borderRadius: '50%',
@@ -653,7 +681,7 @@ function App() {
                     className="btn btn-premium-glow"
                     style={{
                       position: 'absolute',
-                      right: '-70px',
+                      right: isMobile ? '-10px' : '-70px',
                       top: '50%',
                       transform: 'translateY(-50%)',
                       borderRadius: '50%',
@@ -714,7 +742,7 @@ function App() {
                 pointerEvents: activeSector === 'terminal' ? 'auto' : 'none'
               }}
             >
-              <div className="glass-hud-card" style={{ width: '720px' }}>
+              <div className="glass-hud-card" style={{ width: isMobile ? '340px' : '720px' }}>
                 <h2 className="heading-md" style={{ marginBottom: '0.5rem', fontSize: '2rem' }}>Interactive Sandbox</h2>
                 <p className="text-secondary" style={{ marginBottom: '1.5rem', fontSize: '1rem' }}>Run commands inside this real-time portfolio console environment.</p>
 
@@ -759,10 +787,10 @@ function App() {
                 pointerEvents: activeSector === 'skills' ? 'auto' : 'none'
               }}
             >
-              <div style={{ width: '920px' }}>
+              <div style={{ width: isMobile ? '340px' : '920px' }}>
                 <h2 className="heading-md" style={{ marginBottom: '2rem', fontSize: '2rem' }}>Tech Stack & Dynamic Activity</h2>
 
-                <div className="skills-category-container" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.25rem' }}>
+                <div className="skills-category-container" style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr', gap: '1.25rem' }}>
                   <div className="skills-category-box" style={{ padding: '1.25rem' }}>
                     <h3 style={{ fontSize: '1rem', marginBottom: '0.75rem' }}>🧠 AI/ML & Data Science</h3>
                     <div className="skills-grid-uiverse">
@@ -893,9 +921,9 @@ function App() {
                 pointerEvents: activeSector === 'credentials' ? 'auto' : 'none'
               }}
             >
-              <div style={{ width: '920px' }}>
+              <div style={{ width: isMobile ? '340px' : '920px' }}>
                 <h2 className="heading-md" style={{ marginBottom: '1.5rem', fontSize: '2rem' }}>Credentials & Verified Badges</h2>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr 1fr', gap: '1.5rem' }}>
                   <div className="credential-card oracle-card" style={{ padding: '1.5rem' }}>
                     <div className="credential-badge-img-wrapper" style={{ width: '64px', height: '64px' }}>
                       <img src="https://brm-workforce.oracle.com/pdf/certview/images/OCI25AICFAV1.png" alt="Oracle" style={{ width: '100%' }} />
