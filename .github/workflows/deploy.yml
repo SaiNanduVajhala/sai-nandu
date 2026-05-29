@@ -3,7 +3,8 @@ name: Deploy Portfolio to GitHub Pages
 on:
   push:
     branches:
-      - main   # triggers on every push to main
+      - main
+      - lightmode   # triggers on every push to main and lightmode branches
 
   # Allow manual trigger from the GitHub Actions tab
   workflow_dispatch:
