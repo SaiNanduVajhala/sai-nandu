@@ -5,7 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   // Set base dynamically: '/sai-nandu/' for GitHub Pages, '/' for Vercel or local dev.
-  base: process.env.GITHUB_ACTIONS === 'true' ? '/sai-nandu/' : '/',
+  base: process.env.GITHUB_ACTIONS === 'true' ? '/portfolio/' : '/',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
